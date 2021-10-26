@@ -2,11 +2,11 @@
 from itertools import permutations
 import argparse
 from argparse import RawTextHelpFormatter
-
+from typing import List, Dict
 import hmac
 import hashlib
 
-def audit(secrets, hashes, vote_options):
+def audit(secrets:List[str], hashes:List[str], vote_options:List[str]) -> List[str]:
     if len(secrets) != len(hashes):
         raise Exception('Audit failed. Number of secrets must be equal with number of hashes.')
 
@@ -34,8 +34,7 @@ def audit(secrets, hashes, vote_options):
 
     return validated_vote_options
 
-def arrangements(options, min_options = 1, max_options = 1):
-    #total = options_len!/(options_len - min_options)! + options_len!/(options_len - max_options)!
+def arrangements(options:List[str], min_options:int = 1, max_options:int = 1) -> List[str]:
     arr = []
     for i in range(min_options, max_options + 1):
         tuples = permutations(options, i)
@@ -44,7 +43,7 @@ def arrangements(options, min_options = 1, max_options = 1):
             arr.append(str)
     return arr
 
-def compute_votes(valid_votes):
+def compute_votes(valid_votes:List[str]) -> Dict[str, int]:
     results = {}
     for vote in valid_votes:
         split_options = vote.split(",")
